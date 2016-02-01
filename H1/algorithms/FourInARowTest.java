@@ -53,4 +53,9 @@ public class FourInARowTest {
 		
 		assertArrayEquals(board, game.getBoardState());
 	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testAddCheckerToColumnOutsideBoard(){
+		game.addChecker(8);
+	}
 }

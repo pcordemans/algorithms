@@ -1,5 +1,7 @@
 package algorithms;
 
+import java.util.Scanner;
+
 /**
  * 
  * Provides a board to play four in a row add checkers in turn with
@@ -57,6 +59,10 @@ public class FourInARow {
 			return nextEmptySpot(row + 1, column);
 	}
 	
+	/**
+	 * Gets the current board state
+	 * @return the current state
+	 */
 	public int[][] getBoardState(){
 		return board;
 	}
@@ -88,14 +94,17 @@ public class FourInARow {
 
 	public static void main(String[] args) {
 		FourInARow game = new FourInARow();
-		game.addChecker(1);
-		game.addChecker(0);
-		game.addChecker(6);
-		game.addChecker(1);
-		game.addChecker(1);
-
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("*** Four in a row ***");
+		System.out.println("Enter column number between 0 and 6 to insert checker");
 		System.out.print(game.toString());
-
+		
+		while(true){
+			int column = scanner.nextInt();
+			game.addChecker(column);
+			System.out.print(game.toString());
+		}
 	}
 
 }
