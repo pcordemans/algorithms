@@ -88,4 +88,17 @@ public class FourInARowTest {
 		
 		assertEquals(yellow, game.doWeHaveAWinner(0, 0));
 	}
+	
+	@Test
+	public void testWinnerYellowDiagonalUp(){
+		board[0][0] = yellow;
+		board[1][1] = yellow;
+		board[2][2] = yellow;
+		board[3][3] = yellow;
+		
+		game.setBoard(board);
+		
+		assertEquals(yellow, game.doWeHaveAWinner(0, 0));
+		assertEquals(yellow, game.doWeHaveAWinner(2, 2));
+	}
 }
