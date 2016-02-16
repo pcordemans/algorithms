@@ -10,7 +10,7 @@ public class FourInARowTest {
 	FourInARow game;
 	int board[][];
 	
-	private final int yellow = 1, red = -1;
+	private final int yellow = 1, red = -1, empty = 0;
 	
 	@Before
 	public void setup(){
@@ -57,5 +57,23 @@ public class FourInARowTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void testAddCheckerToColumnOutsideBoard(){
 		game.addChecker(8);
+	}
+	
+	@Test
+	public void testDoWeHaveAWinnerWithEmptyPosition(){
+		assertEquals(empty, game.doWeHaveAWinner(0, 0));		
+	}
+	
+	@Test
+	public void testWinnerRedColumn(){
+		board[0][0] = red;
+		board[1][0] = red;
+		board[2][0] = red;
+		board[3][0] = red;
+		
+		game.setBoard(board);
+		
+		assertEquals(empty, game.doWeHaveAWinner(2, 0));
+		assertEquals(red, game.doWeHaveAWinner(3, 0));
 	}
 }

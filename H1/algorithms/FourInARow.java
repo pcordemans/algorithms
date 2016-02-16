@@ -60,6 +60,46 @@ public class FourInARow {
 	}
 	
 	/**
+	 * Indicates if a checker leads to a winning combination
+	 * @param row of the checker
+	 * @param column of the checker
+	 * @return 1 (yellow wins), -1 (red wins), 0 (no winner)
+	 */
+	public int doWeHaveAWinner(int row, int column){
+		if(board[row][column] == empty) return empty;
+		int possibleWinner = board[row][column];
+		if(checkWinnerinColumn(row, column)) return possibleWinner;
+		return empty;
+	}
+	
+	private boolean checkWinnerinColumn(int row, int column){
+		if(positionOfRowNotInBoard(row, -3)) return false;
+		int result = 0;
+		for(int i = 0; i < 4; i++){
+			result += board[row - i][column]; 
+		}
+		return ( Math.abs(result) == 4)? true : false;
+	}
+	
+	private boolean positionOfRowNotInBoard(int row,  int rowOffset){
+		if(row + rowOffset < 0 || row + rowOffset > 5) return true;
+		return false;
+	}
+	
+	private boolean positionOfColumnNotInBoard(int column, int columnOffset){
+		if(column + columnOffset < 0 || column + columnOffset > 6) return false;
+		return true;
+	}
+	
+	/**
+	 * Sets a predefined board state
+	 * @param board with 6 rows and 7 columns, cells contain -1, 0 or 1
+	 */
+	public void setBoard(int[][] board){
+		this.board = board;
+	}
+	
+	/**
 	 * Gets the current board state
 	 * @return the current state
 	 */
