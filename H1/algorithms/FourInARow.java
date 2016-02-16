@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class FourInARow {
 	private int rows = 6, columns = 7;
-	private final int yellow = 1, red = -1, empty = 0;
+	private final static int yellow = 1, red = -1, empty = 0;
 	private int board[][] = new int[rows][columns];
 	private int currentPlayer = yellow;
 
@@ -31,16 +31,19 @@ public class FourInARow {
 
 	/**
 	 * the current player adds a checker to the column of his choice, then the
-	 * current player is switched
+	 * current player is switched, checks if a player wins
 	 * 
 	 * @param column
 	 *            between 0 and 6
+	 * @return 0 if no winner, -1 if red wins and 1 if yellow wins           
 	 */
-	public void addChecker(int column) {
+	public int addChecker(int column) {
 		if (column < 0 || column > 6)
 			throw new IllegalArgumentException("Invalid board position");
-		board[nextEmptySpot(0, column)][column] = currentPlayer;
+		int row = nextEmptySpot(0, column);
+		board[row][column] = currentPlayer;
 		currentPlayer = -currentPlayer;
+		return doWeHaveAWinner(row, column);		
 	}
 
 	/**
@@ -220,11 +223,17 @@ public class FourInARow {
 		System.out.println("Enter column number between 0 and 6 to insert checker");
 		System.out.print(game.toString());
 		
-		while(true){
+		int winner = 0;
+		
+		while(winner == 0){
 			int column = scanner.nextInt();
-			game.addChecker(column);
+			winner = game.addChecker(column);
 			System.out.print(game.toString());
 		}
+		
+		if (winner == yellow) System.out.print("Yellow");
+		else System.out.print("Red");
+		System.out.println(" wins!");
 	}
 
 }
