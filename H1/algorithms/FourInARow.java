@@ -70,11 +70,41 @@ public class FourInARow {
 		int possibleWinner = board[row][column];
 		if(checkWinnerInColumn(row, column)) return possibleWinner;
 		if(checkWinnerInRow(row)) return possibleWinner;
-		if(checkWinnerDiagonalUp(row, column)) return possibleWinner;
+		if(checkWinnerDiagonalLeftUp(row, column)) return possibleWinner;
+		if(checkWinnerDiagonalRightUp(row, column)) return possibleWinner;
 		return empty;
 	}
 	
-	private boolean checkWinnerDiagonalUp(int row, int column){
+	private boolean checkWinnerDiagonalRightUp(int row, int column){
+		int offset = positionConnectedRightDown(row, column);
+		int checker = board[row][column];
+		int connected = 1;
+		boolean cont = true;
+		while(row - offset + connected < 5 && column + offset - connected >= 0 && cont){
+			if(board[row-offset+connected][column+offset-connected] == checker) connected++;
+			else cont = false;
+		}
+		return (connected >= 4)? true : false;
+	}	
+	
+	/**
+	 * Gives the position of the connected checker most right down from a given position
+	 * @param row position
+	 * @param column position
+	 * @return offset from row and column
+	 */
+	private int positionConnectedRightDown(int row, int column){
+		int offset = 0;
+		int checker = board[row][column];
+		boolean cont = true;
+		while(row - offset > 0 && column + offset < 6 && cont){
+			if(board[row - offset - 1][column + offset + 1] == checker) offset++;
+			else cont = false;
+		}
+		return offset;
+	}	
+	
+	private boolean checkWinnerDiagonalLeftUp(int row, int column){
 		int offset = positionConnectedLeftDown(row, column);
 		int checker = board[row][column];
 		int connected = 1;

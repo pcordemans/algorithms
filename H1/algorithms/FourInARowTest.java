@@ -90,7 +90,7 @@ public class FourInARowTest {
 	}
 	
 	@Test
-	public void testWinnerYellowDiagonalUp(){
+	public void testWinnerYellowDiagonalLeftUp(){
 		board[0][0] = yellow;
 		board[1][1] = yellow;
 		board[2][2] = yellow;
@@ -100,5 +100,18 @@ public class FourInARowTest {
 		
 		assertEquals(yellow, game.doWeHaveAWinner(0, 0));
 		assertEquals(yellow, game.doWeHaveAWinner(2, 2));
+	}
+	
+	@Test
+	public void testWinnerRedDiagonalRightUp(){
+		board[4][0] = red;
+		board[3][1] = red;
+		board[2][2] = red;
+		board[1][3] = red;
+		
+		game.setBoard(board);
+		
+		assertEquals(red, game.doWeHaveAWinner(4, 0));
+		assertEquals(red, game.doWeHaveAWinner(2, 2));
 	}
 }
