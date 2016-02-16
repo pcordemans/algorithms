@@ -1,0 +1,66 @@
+package algorithms;
+
+/**
+ * Singly linked list implementation
+ *
+ * @param <E> type of the elements in the list
+ */
+public class List<E> {
+	private Node<E> head;
+	private int size;
+	
+	/**
+	 * Constructs a list with a single element
+	 * 
+	 * @param element of the list
+	 */
+	List(E element) {
+		head = new Node<E>(element);
+		size = 1;
+	}
+	
+	/**
+	 * Retrieves the size of the list
+	 * @return the number of elements in the list
+	 */
+	public int size(){
+		return size;
+	}
+	
+	/**
+	 * Retrieves the head of the list 
+	 * @return the head node
+	 */
+	public Node<E> head(){
+		return head;
+	}
+	
+	/**
+	 * Prepends a node to the list
+	 * @param node to prepend
+	 * @return itself
+	 */
+	public List<E> prepend(Node<E> node){
+		node.setNext(head);
+		head = node;
+		size++;
+		return this;
+	}
+	
+	/**
+	 * Prepends a list to the list
+	 * @param list to prepend
+	 * @return itself
+	 */
+	public List<E> prepend(List<E> list){
+		size = size + list.size;
+		Node<E> cursor = list.head();
+		while(cursor.next() != null){
+			 cursor = cursor.next();
+		}
+		cursor.setNext(head);
+		head = list.head;
+		
+		return this;
+	}
+}
