@@ -68,11 +68,12 @@ public class FourInARow {
 	public int doWeHaveAWinner(int row, int column){
 		if(board[row][column] == empty) return empty;
 		int possibleWinner = board[row][column];
-		if(checkWinnerinColumn(row, column)) return possibleWinner;
+		if(checkWinnerInColumn(row, column)) return possibleWinner;
+		if(checkWinnerInRow(row)) return possibleWinner;
 		return empty;
 	}
 	
-	private boolean checkWinnerinColumn(int row, int column){
+	private boolean checkWinnerInColumn(int row, int column){
 		if(positionOfRowNotInBoard(row, -3)) return false;
 		int result = 0;
 		for(int i = 0; i < 4; i++){
@@ -81,14 +82,33 @@ public class FourInARow {
 		return ( Math.abs(result) == 4)? true : false;
 	}
 	
+	private boolean checkWinnerInRow(int row){
+		int yellowWins = 0;
+		int redWins = 0;
+		boolean result = false;
+		
+		for (int i = 0; i < 7; i++) {
+			if(board[row][i] == yellow){
+				yellowWins++;
+				redWins = 0;
+				if(yellowWins == 4) result = true;
+			}
+			else if (board[row][i] == red){
+				redWins++;
+				yellowWins = 0;
+				if(redWins == 4) result = true;
+			}
+			else {
+				yellowWins = 0;
+				redWins = 0;
+			}
+		}		
+		return result;
+	}
+	
 	private boolean positionOfRowNotInBoard(int row,  int rowOffset){
 		if(row + rowOffset < 0 || row + rowOffset > 5) return true;
 		return false;
-	}
-	
-	private boolean positionOfColumnNotInBoard(int column, int columnOffset){
-		if(column + columnOffset < 0 || column + columnOffset > 6) return false;
-		return true;
 	}
 	
 	/**

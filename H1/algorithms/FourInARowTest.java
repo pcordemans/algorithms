@@ -76,4 +76,16 @@ public class FourInARowTest {
 		assertEquals(empty, game.doWeHaveAWinner(2, 0));
 		assertEquals(red, game.doWeHaveAWinner(3, 0));
 	}
+	
+	@Test
+	public void testWinnerYellowRow(){
+		board[0][0] = yellow;
+		board[0][1] = yellow;
+		board[0][2] = yellow;
+		board[0][3] = yellow;
+		
+		game.setBoard(board);
+		
+		assertEquals(yellow, game.doWeHaveAWinner(0, 0));
+	}
 }
