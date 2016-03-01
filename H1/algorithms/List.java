@@ -10,6 +10,14 @@ public class List<E> {
 	private int size;
 	
 	/**
+	 * Constructs an empty list
+	 */
+	List(){
+		head = null;
+		size = 0;
+	}
+	
+	/**
 	 * Constructs a list with a single element
 	 * 
 	 * @param element of the list
@@ -54,13 +62,27 @@ public class List<E> {
 	 */
 	public List<E> prepend(List<E> list){
 		size = size + list.size;
-		Node<E> cursor = list.head();
-		while(cursor.next() != null){
-			 cursor = cursor.next();
-		}
-		cursor.setNext(head);
+		last(list.head).setNext(head);
 		head = list.head;
 		
 		return this;
 	}
+	
+	/**
+	 * Removes the head of the list, the next node becomes the new head
+	 * @return the removed head
+	 */
+	public Node<E> removeHead(){
+		Node <E> oldHead = head;
+		head = head.next();
+		size--;
+		return oldHead;
+	}
+	
+	private Node<E> last(Node<E> cursor){
+		if (cursor.next() == null)
+			return cursor;
+		return last(cursor.next());
+	}
+	
 }
