@@ -161,9 +161,9 @@ public class LinkedPositionalList<E> implements PositionalList<E>, Iterable<E> {
 		 * @return the next element and updates the next reference
 		 */
 		public E next() {
-			E element = index.getNext().getElement();
+			
 			index = index.getNext();
-			return element;
+			return index.getElement();
 		}
 	}
 	

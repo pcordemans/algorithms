@@ -17,6 +17,7 @@ public class LinkedPositionalListTest {
 		poslist = new LinkedPositionalList<String>();
 		first = poslist.prepend("first");
 		last = poslist.append("last");
+		
 	}
 
 	@Test
@@ -103,7 +104,7 @@ public class LinkedPositionalListTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void testAddBeforeAndAfterSentinels(){
 		LinkedPositionalList<String> poslist = new LinkedPositionalList<String>();
 		Position<String> header = poslist.last();
