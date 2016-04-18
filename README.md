@@ -10,6 +10,6 @@ Exercises are based on Java 8.
 5. Tree
 6. Heap
 7. Map
-8. Sorting
-9. Graphs
+8. Graphs
+9. Sorting
 10. Text processing
