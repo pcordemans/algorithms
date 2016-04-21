@@ -103,12 +103,12 @@ public class TestPermutations {
 		c6.add("A");
 				
 		ArrayList<ArrayList<String>> combinations = new ArrayList<ArrayList<String>>();
-		combinations.add(c5);
-		combinations.add(c4);
-		combinations.add(c6);
-		combinations.add(c2);
 		combinations.add(c3);
+		combinations.add(c6);
 		combinations.add(c1);
+		combinations.add(c5);
+		combinations.add(c2);
+		combinations.add(c4);
 		
 		assertEquals(combinations, tree.combinations(2));
 	}
