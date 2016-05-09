@@ -12,4 +12,5 @@ Exercises are based on Java 8.
 7. Map
 8. Graphs
 9. Sorting
-10. Text processing
+10. Lambda's & streams
+11. Text processing
