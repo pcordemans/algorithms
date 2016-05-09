@@ -11,7 +11,8 @@ import org.junit.Test;
 public class TestPermutations {
 
 	private static ArrayList<String> strings; 	
-	private static Tree<String> tree; 
+	private static Tree<String> tree;
+	private static ArrayList<String> p1, p2, p3, p4, p5, p6;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -21,6 +22,36 @@ public class TestPermutations {
 		strings.add("C");
 		
 		tree = new Tree<String>(strings);
+		
+		p1 = new ArrayList<String>();
+		p1.add("A");
+		p1.add("B");
+		p1.add("C");
+		
+		p2= new ArrayList<String>();
+		p2.add("A");
+		p2.add("C");
+		p2.add("B");
+		
+		p3= new ArrayList<String>();
+		p3.add("B");
+		p3.add("A");
+		p3.add("C");
+		
+		p4= new ArrayList<String>();
+		p4.add("B");
+		p4.add("C");
+		p4.add("A");
+		
+		p5= new ArrayList<String>();
+		p5.add("C");
+		p5.add("B");
+		p5.add("A");
+		
+		p6= new ArrayList<String>();
+		p6.add("C");
+		p6.add("A");
+		p6.add("B");
 	}
 		
 	@Before
@@ -35,36 +66,6 @@ public class TestPermutations {
 	
 	@Test
 	public void testPermutations(){
-		ArrayList<String> p1= new ArrayList<String>();
-		p1.add("A");
-		p1.add("B");
-		p1.add("C");
-		
-		ArrayList<String> p2= new ArrayList<String>();
-		p2.add("A");
-		p2.add("C");
-		p2.add("B");
-		
-		ArrayList<String> p3= new ArrayList<String>();
-		p3.add("B");
-		p3.add("A");
-		p3.add("C");
-		
-		ArrayList<String> p4= new ArrayList<String>();
-		p4.add("B");
-		p4.add("C");
-		p4.add("A");
-		
-		ArrayList<String> p5= new ArrayList<String>();
-		p5.add("C");
-		p5.add("B");
-		p5.add("A");
-		
-		ArrayList<String> p6= new ArrayList<String>();
-		p6.add("C");
-		p6.add("A");
-		p6.add("B");
-		
 		ArrayList<ArrayList<String>> permutations = new ArrayList<ArrayList<String>>();
 		permutations.add(p5);
 		permutations.add(p4);
@@ -77,7 +78,7 @@ public class TestPermutations {
 	}
 	
 	@Test
-	public void testCombinations(){
+	public void testVariations(){
 		ArrayList<String> c1= new ArrayList<String>();
 		c1.add("A");
 		c1.add("B");
@@ -102,14 +103,14 @@ public class TestPermutations {
 		c6.add("C");
 		c6.add("A");
 				
-		ArrayList<ArrayList<String>> combinations = new ArrayList<ArrayList<String>>();
-		combinations.add(c3);
-		combinations.add(c6);
-		combinations.add(c1);
-		combinations.add(c5);
-		combinations.add(c2);
-		combinations.add(c4);
+		ArrayList<ArrayList<String>> variations = new ArrayList<ArrayList<String>>();
+		variations.add(c3);
+		variations.add(c6);
+		variations.add(c1);
+		variations.add(c5);
+		variations.add(c2);
+		variations.add(c4);
 		
-		assertEquals(combinations, tree.combinations(2));
-	}
+		assertEquals(variations, tree.variations(2));
+	}	
 }

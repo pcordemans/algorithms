@@ -62,7 +62,8 @@ public class Tree<E> {
 	 * @return a list of all permutations of elements, permutations of elements are represented as an ArrayList<E>
 	 */
 	public ArrayList<ArrayList<E>> permutations(){
-		return constructPathsInTree(root, Integer.MAX_VALUE);
+		
+		return variations(Integer.MAX_VALUE);
 	}
 	
 	/**
@@ -70,8 +71,12 @@ public class Tree<E> {
 	 * @param numberOfElements in the combinations
 	 * @return the list of combinations
 	 */
-	public ArrayList<ArrayList<E>> combinations(int numberOfElements){
-		return constructPathsInTree(root, numberOfElements);
+	public ArrayList<ArrayList<E>> variations(int numberOfElements){
+		ArrayList<ArrayList<E>> result = new ArrayList<ArrayList<E>>();
+		for(TreeNode<E> child : root.children){
+			result.addAll(constructPathsInTree(child, numberOfElements));
+		}
+		return result;
 	}
 	
 	/**
@@ -93,14 +98,15 @@ public class Tree<E> {
 			for(TreeNode<E> child: node.getChildren()){
 				ArrayList<ArrayList<E>> currentPaths = constructPathsInTree(child, level);
 				for(ArrayList<E> path : currentPaths){
-					if(!node.isRoot())
-						path.add(node.getElement());
+					path.add(node.getElement());
 					partialResult.add(path);
 				}
 			}
 			return partialResult;
 		}
 	}
+	
+	
 	
 	/**
 	 * Tree node implementation	
