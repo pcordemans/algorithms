@@ -78,7 +78,7 @@ public class TestPermutations {
 	}
 	
 	@Test
-	public void testVariations(){
+	public void testCombinations(){
 		ArrayList<String> c1= new ArrayList<String>();
 		c1.add("A");
 		c1.add("B");
@@ -103,14 +103,50 @@ public class TestPermutations {
 		c6.add("C");
 		c6.add("A");
 				
-		ArrayList<ArrayList<String>> variations = new ArrayList<ArrayList<String>>();
-		variations.add(c3);
-		variations.add(c6);
-		variations.add(c1);
-		variations.add(c5);
-		variations.add(c2);
-		variations.add(c4);
+		ArrayList<ArrayList<String>> combinations = new ArrayList<ArrayList<String>>();
+		combinations.add(c3);
+		combinations.add(c6);
+		combinations.add(c1);
+		combinations.add(c5);
+		combinations.add(c2);
+		combinations.add(c4);
 		
-		assertEquals(variations, tree.variations(2));
-	}	
+		assertEquals(combinations, tree.combinations(2));
+	}
+	
+	
+	public void testMinimalPaths(){
+		ArrayList<ArrayList<String>> minPaths = new ArrayList<ArrayList<String>>();
+		minPaths.add(p3);
+		minPaths.add(p6);
+		minPaths.add(p1);
+		minPaths.add(p5);
+		minPaths.add(p2);
+		minPaths.add(p4);
+		
+		assertEquals(minPaths, tree.filterPaths(2));
+	}
+	
+	@Test
+	public void testSingleDependency(){
+		ArrayList<ArrayList<String>> minPaths = new ArrayList<ArrayList<String>>();
+		minPaths.add(p1);
+		minPaths.add(p5);
+		assertEquals(minPaths, tree.filterPaths(1));
+	}
+	
+	
+	public void testMinimalPaths4elements(){
+		ArrayList<String> elements = new ArrayList<String>();
+		elements.add("A");
+		elements.add("B");
+		elements.add("C");
+		elements.add("D");
+		
+		ArrayList<ArrayList<String>> minPaths = new ArrayList<ArrayList<String>>();
+		
+		Tree<String> elements4 = new Tree<String>(elements);
+		assertEquals(24, elements4.permutations().size());
+		assertEquals(minPaths, elements4.filterPaths(2));
+	}
 }

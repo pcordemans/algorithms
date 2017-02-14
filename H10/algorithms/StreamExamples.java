@@ -35,7 +35,7 @@ public class StreamExamples {
 			.stream()
 			.filter(book -> book.getAuthor() == "Adams")
 			.map(book -> book.getPrice() + book.getPrice() * 0.21)
-			.reduce(0.0, (sum, price) ->  sum + price);			
+			.reduce(0.0, (sum, price) ->  sum + price);
 		
 		System.out.println(combinedPriceOfBooksWrittenByAdamsVATincluded);
 	}

@@ -63,7 +63,7 @@ public class Tree<E> {
 	 */
 	public ArrayList<ArrayList<E>> permutations(){
 		
-		return variations(Integer.MAX_VALUE);
+		return combinations(Integer.MAX_VALUE);
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class Tree<E> {
 	 * @param numberOfElements in the combinations
 	 * @return the list of combinations
 	 */
-	public ArrayList<ArrayList<E>> variations(int numberOfElements){
+	public ArrayList<ArrayList<E>> combinations(int numberOfElements){
 		ArrayList<ArrayList<E>> result = new ArrayList<ArrayList<E>>();
 		for(TreeNode<E> child : root.children){
 			result.addAll(constructPathsInTree(child, numberOfElements));
@@ -106,7 +106,158 @@ public class Tree<E> {
 		}
 	}
 	
+	/**
+	 * Filters the set of permutations to cover all combinations given a level
+	 * @param level of combinations
+	 * @return list of permutations which cover all combinations
+	 */
+	public ArrayList<ArrayList<E>> filterPaths(int level){
+		ArrayList<ArrayList<E>> combinations = combinations(level);
+		ArrayList<ArrayList<E>> result = new ArrayList<ArrayList<E>>();
+		
+		while(combinations.size() != 0){
+		//step 1: select partial path with next combination
+		TreeNode<E> node = partialPathNode(combinations.get(0));
+		//step 2: collect all complete paths of partial path
+		ArrayList<ArrayList<TreeNode<E>>> completedPathsInTree = findPaths(node, new ArrayList<TreeNode<E>>());
+		ArrayList<ArrayList<E>> completedPaths = new ArrayList<ArrayList<E>>();
+		for(ArrayList<TreeNode<E>> nodes : completedPathsInTree){
+			ArrayList<E> path = new ArrayList<E>();
+			for(TreeNode<E> n : completePath(nodes)){
+				path.add(n.getElement());
+			}
+			completedPaths.add(path);
+		}
+		//step 3: select complete path with most combinations: check numberOfCoveredCombinations
+		ArrayList<E> mostCovered = null;
+		int numberCovered = 0;
+		for(ArrayList<E> path : completedPaths){
+			int currentNumber = numberOfCoveredCombinations(path, combinations);
+			if( currentNumber > numberCovered){
+				mostCovered = path;
+				numberCovered = currentNumber;
+			}				
+		}
+		result.add(mostCovered);
+		
+		//step 4: filter all combinations not covered: check coveredCombinations
+		ArrayList<ArrayList<E>> covered = coveredCombinations(mostCovered, level+1);
+		combinations.removeAll(covered);
+		//step 5: repeat until all combinations are covered
+		}
+		return result;
+	}
 	
+	/**
+	 * Returns the number of covered combinations in a path
+	 * @param path of elements
+	 * @param combinations set to cover
+	 * @return the number of combinations in the set which are covered by the path
+	 */
+	private int numberOfCoveredCombinations(ArrayList<E> path, ArrayList<ArrayList<E>> combinations){
+		ArrayList<ArrayList<E>> inpath = coveredCombinations(path, combinations.get(0).size());
+		ArrayList<ArrayList<E>> covered = new ArrayList<ArrayList<E>>(combinations);
+		covered.retainAll(inpath);
+		return covered.size();
+	}
+	
+	
+	private ArrayList<ArrayList<E>> coveredCombinations(ArrayList<E> path, int level){
+		
+		TreeNode<E> tree = new TreeNode<E>(null);
+		constructCombinationTree(tree, path, level);
+		
+		return returnPaths(tree, new ArrayList<E>());
+	}
+	
+	/**
+	 * Constructs all paths in order in a given Tree
+	 * @param node root of the Tree
+	 * @param partialPath empty path
+	 * @return list of all paths
+	 */
+	private ArrayList<ArrayList<E>> returnPaths(TreeNode<E> node, ArrayList<E> partialPath){
+		ArrayList<ArrayList<E>> result = new ArrayList<ArrayList<E>>();
+		
+		if(!node.hasChildren()){
+			result.add(partialPath);
+			return result;
+		}
+		
+		for(TreeNode<E> child : node.getChildren()){
+			ArrayList<E> path = new ArrayList<E>(partialPath);
+			path.add(child.getElement());
+			result.addAll(returnPaths(child, path));
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Constructs a tree of combinations of a given path
+	 * @param path
+	 * @param root node
+	 */
+	private void constructCombinationTree(TreeNode<E> node, ArrayList<E> path, int level){
+		int index = 0;
+		if(!node.isRoot()) index =  path.indexOf(node.getElement())+1;
+		for(int i = index; i <= node.getLevel(); i++ ){
+			node.addChild(path.get(i));
+		}		
+		if(level-1 == node.getLevel()) return;
+		for(TreeNode<E> child : node.getChildren()){
+			constructCombinationTree(child, path, level);
+		}
+	}
+	
+	private TreeNode<E> partialPathNode(ArrayList<E> combination){
+		TreeNode <E> result = root;
+		for(E element : combination){
+			result = nextNodeInPath(element, result);
+		}
+		return result;
+	}
+	
+	private TreeNode<E> nextNodeInPath(E nextElement, TreeNode<E> current){
+		TreeNode<E> found = null;
+		for(TreeNode<E> node : current.getChildren())
+			if(node.getElement() == nextElement) found = node;
+		return found;	
+	}
+	
+	/***
+	 * Finds all paths originating from the node
+	 * @param node
+	 * @param path
+	 * @return the list of paths
+	 */
+	private ArrayList<ArrayList<TreeNode<E>>> findPaths(TreeNode<E> node, ArrayList<TreeNode<E>> path){
+		path.add(node);
+		if(!node.hasChildren()){
+			ArrayList<ArrayList<TreeNode<E>>> result = new ArrayList<ArrayList<TreeNode<E>>>();
+			result.add(path);
+			return result;
+		}
+		ArrayList<ArrayList<TreeNode<E>>> result = new ArrayList<ArrayList<TreeNode<E>>>();
+		
+		for(TreeNode<E> child : node.getChildren()){
+			ArrayList<TreeNode<E>> partialPath = new ArrayList<TreeNode<E>>(path);
+			result.addAll(findPaths(child, partialPath));
+		}
+		return result;
+	}
+	
+	/***
+	 * Construct the completed path, given a partial path  
+	 * @param partial
+	 * @return completed path
+	 */
+	private ArrayList<TreeNode<E>> completePath(ArrayList<TreeNode<E>> partial){
+		TreeNode<E> current = partial.get(0);
+		if(current.getParent().isRoot()) return partial;
+		partial.add(0, current.getParent());
+		return completePath(partial);
+	}
 	
 	/**
 	 * Tree node implementation	
@@ -141,6 +292,10 @@ public class Tree<E> {
 		 */
 		public T getElement(){
 			return element;
+		}
+		
+		public void setElement(T element){
+			this.element = element;
 		}
 		
 		/**
