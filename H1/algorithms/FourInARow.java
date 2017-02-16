@@ -9,7 +9,7 @@ import java.util.Scanner;
  * 
  */
 public class FourInARow {
-	private int rows = 6, columns = 7;
+	private final int rows = 6, columns = 7;
 	private final static int yellow = 1, red = -1, empty = 0;
 	private int board[][] = new int[rows][columns];
 	private int currentPlayer = yellow;
@@ -234,6 +234,7 @@ public class FourInARow {
 		if (winner == yellow) System.out.print("Yellow");
 		else System.out.print("Red");
 		System.out.println(" wins!");
+		scanner.close();
 	}
 
 }
