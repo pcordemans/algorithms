@@ -1,5 +1,5 @@
 package algorithms.h3.stack;
-import algorithms.h1.linkedlist.*;
+import algorithms.h1.linkedlist.List;
 
 public class StackLL<E> implements Stack<E> {
 	private List<E> list;
@@ -18,16 +18,16 @@ public class StackLL<E> implements Stack<E> {
 	}
 	
 	public void push(E element){
-		list.prepend(new Node<E>(element));
+		list.prepend(element);
 	}
 	
 	public E top(){
-		if(list.head() == null) return null;
-		return list.head().get();
+		if(isEmpty()) return null;
+		return list.head();
 	}
 	
 	public E pop(){
 		if(top() == null) return null;
-		return list.removeHead().get();
+		return list.removeHead();
 	}
 }
