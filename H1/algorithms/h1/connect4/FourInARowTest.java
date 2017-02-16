@@ -10,7 +10,7 @@ public class FourInARowTest {
 	FourInARow game;
 	int board[][];
 	
-	private final int yellow = 1, red = -1, empty = 0;
+	private final int yellow = 1, red = -1;
 	
 	@Before
 	public void setup(){

@@ -17,22 +17,22 @@ public class ListTest {
 	@Test
 	public void testConstructor() {
 		assertEquals(1, list.size());
-		assertEquals(new Node<String>("1"), list.head());
+		assertEquals("1", list.head());
 	}
 	
 	@Test
-	public void testPrependWithNode(){
-		Node<String> node = new Node<String>("2");
-		list.prepend(node);
+	public void testPrependElement(){
+		String element = "2";
+		list.prepend(element);
 		
 		assertEquals(2, list.size());
-		assertEquals(node, list.head());
+		assertEquals(element, list.head());
 	}
 	
 	@Test
 	public void testPrependAnotherList(){
 		List<String> otherList = new List<String>("2");
-		Node<String> element = new Node<String>("3");
+		String element = "3";
 		
 		otherList.prepend(element);
 		list.prepend(otherList);
