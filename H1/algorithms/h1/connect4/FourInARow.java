@@ -43,7 +43,7 @@ public class FourInARow {
 		int row = nextEmptySpot(0, column);
 		board[row][column] = currentPlayer;
 		currentPlayer = -currentPlayer;
-		return doWeHaveAWinner(row, column);		
+		return 0;		
 	}
 
 	/**
@@ -60,127 +60,7 @@ public class FourInARow {
 			return row;
 		else
 			return nextEmptySpot(row + 1, column);
-	}
-	
-	/**
-	 * Indicates if a checker leads to a winning combination
-	 * @param row of the checker
-	 * @param column of the checker
-	 * @return 1 (yellow wins), -1 (red wins), 0 (no winner)
-	 */
-	public int doWeHaveAWinner(int row, int column){
-		if(board[row][column] == empty) return empty;
-		int possibleWinner = board[row][column];
-		if(checkWinnerInColumn(row, column)) return possibleWinner;
-		if(checkWinnerInRow(row)) return possibleWinner;
-		if(checkWinnerDiagonalLeftUp(row, column)) return possibleWinner;
-		if(checkWinnerDiagonalRightUp(row, column)) return possibleWinner;
-		return empty;
-	}
-	
-	private boolean checkWinnerDiagonalRightUp(int row, int column){
-		int offset = positionConnectedRightDown(row, column);
-		int checker = board[row][column];
-		int connected = 1;
-		boolean cont = true;
-		while(row - offset + connected < 5 && column + offset - connected >= 0 && cont){
-			if(board[row-offset+connected][column+offset-connected] == checker) connected++;
-			else cont = false;
-		}
-		return (connected >= 4)? true : false;
 	}	
-	
-	/**
-	 * Gives the position of the connected checker most right down from a given position
-	 * @param row position
-	 * @param column position
-	 * @return offset from row and column
-	 */
-	private int positionConnectedRightDown(int row, int column){
-		int offset = 0;
-		int checker = board[row][column];
-		boolean cont = true;
-		while(row - offset > 0 && column + offset < 6 && cont){
-			if(board[row - offset - 1][column + offset + 1] == checker) offset++;
-			else cont = false;
-		}
-		return offset;
-	}	
-	
-	private boolean checkWinnerDiagonalLeftUp(int row, int column){
-		int offset = positionConnectedLeftDown(row, column);
-		int checker = board[row][column];
-		int connected = 1;
-		boolean cont = true;
-		while(row - offset + connected < 5 && column - offset + connected < 6 && cont){
-			if(board[row-offset+connected][column-offset+connected] == checker) connected++;
-			else cont = false;
-		}
-		return (connected >= 4)? true : false;
-	}
-	
-	/**
-	 * Gives the position of the connected checker most left down from a given position
-	 * @param row position
-	 * @param column position
-	 * @return offset from row and column
-	 */
-	private int positionConnectedLeftDown(int row, int column){
-		int offset = 0;
-		int checker = board[row][column];
-		boolean cont = true;
-		while(row - offset > 0 && column - offset > 0 && cont){
-			if(board[row - offset - 1][column - offset - 1] == checker) offset++;
-			else cont = false;
-		}
-		return offset;
-	}
-	
-	private boolean checkWinnerInColumn(int row, int column){
-		if(positionOfRowNotInBoard(row, -3)) return false;
-		int result = 0;
-		for(int i = 0; i < 4; i++){
-			result += board[row - i][column]; 
-		}
-		return ( Math.abs(result) == 4)? true : false;
-	}
-	
-	private boolean checkWinnerInRow(int row){
-		int yellowWins = 0;
-		int redWins = 0;
-		boolean result = false;
-		
-		for (int i = 0; i < columns; i++) {
-			if(board[row][i] == yellow){
-				yellowWins++;
-				redWins = 0;
-				if(yellowWins == 4) result = true;
-			}
-			else if (board[row][i] == red){
-				redWins++;
-				yellowWins = 0;
-				if(redWins == 4) result = true;
-			}
-			else {
-				yellowWins = 0;
-				redWins = 0;
-			}
-		}		
-		return result;
-	}
-	
-	private boolean positionOfRowNotInBoard(int row,  int rowOffset){
-		if(row + rowOffset < 0 || row + rowOffset > 5) return true;
-		return false;
-	}
-	
-	/**
-	 * Sets a predefined board state
-	 * @param board with 6 rows and 7 columns, cells contain -1, 0 or 1
-	 */
-	public void setBoard(int[][] board){
-		this.board = board;
-	}
 	
 	/**
 	 * Gets the current board state
