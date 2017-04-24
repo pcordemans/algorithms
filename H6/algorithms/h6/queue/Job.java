@@ -3,7 +3,7 @@ package algorithms.h6.queue;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Job {
 	private int id;
@@ -33,10 +33,9 @@ public class Job {
 	public static void main(String[] args) {
 
 		Queue<Job> jobPriorityQueue = new PriorityQueue<>(7, idComparator);
-		Random rand = new Random(1000); // seeded random
 
 		for (int i = 0; i < 7; i++) {
-			int id = Math.abs(rand.nextInt());
+			int id = ThreadLocalRandom.current().nextInt(0,1000);
 			Job j = new Job(id, "Job " + id);
 			jobPriorityQueue.add(j);
 
