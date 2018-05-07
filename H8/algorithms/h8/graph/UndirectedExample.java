@@ -1,5 +1,7 @@
 package algorithms.h8.graph;
 
+import java.util.Iterator;
+
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
@@ -28,6 +30,16 @@ public class UndirectedExample extends SingleGraph{
 		       node.addAttribute("ui.label", node.getId());
 		}
 	}
+	
+	 public void explore(Node source) {
+	        Iterator<? extends Node> k = source.getDepthFirstIterator();
+
+	        while (k.hasNext()) {
+	            Node next = k.next();
+	            next.setAttribute("ui.class", "marked");
+	            try { Thread.sleep(1000); } catch (Exception e) {}   
+	        }
+	    }
 	
 	private void addEdges() {
 		addEdge("AB", "A", "B");
@@ -58,8 +70,9 @@ public class UndirectedExample extends SingleGraph{
 	}
 	
 	public static void main(String[] args) {
-		Graph graph = new UndirectedExample();
+		UndirectedExample graph = new UndirectedExample();
 		graph.display();
+		graph.explore(graph.getNode("A"));
 		
 	}
 }
