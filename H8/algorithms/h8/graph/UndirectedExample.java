@@ -2,45 +2,32 @@ package algorithms.h8.graph;
 
 import java.util.Iterator;
 
-import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 
-public class UndirectedExample extends SingleGraph{
-	private String styleSheet = 
-            "node {fill-color: black;text-size: 24px; }" +
-            "node.marked {fill-color: red;}";
-	
-	
+public class UndirectedExample extends SingleGraph {
+	private String styleSheet = "node {fill-color: black;text-size: 24px; }" 
+								+ "node.marked {fill-color: red;}";
+
 	public UndirectedExample() {
 		super("UndirectedExample");
-		
+
 		addNodes();
 		addEdges();
-		
+
 		addAttribute("ui.stylesheet", styleSheet);
 	}
-	
+
 	private void addNodes() {
-		for(char c = 'A'; c <='P'; c++) {
+		for (char c = 'A'; c <= 'P'; c++) {
 			addNode(Character.toString(c));
 		}
-		
+
 		for (Node node : this) {
-		       node.addAttribute("ui.label", node.getId());
+			node.addAttribute("ui.label", node.getId());
 		}
 	}
-	
-	 public void explore(Node source) {
-	        Iterator<? extends Node> k = source.getDepthFirstIterator();
 
-	        while (k.hasNext()) {
-	            Node next = k.next();
-	            next.setAttribute("ui.class", "marked");
-	            try { Thread.sleep(1000); } catch (Exception e) {}   
-	        }
-	    }
-	
 	private void addEdges() {
 		addEdge("AB", "A", "B");
 		addEdge("AE", "A", "E");
@@ -57,7 +44,7 @@ public class UndirectedExample extends SingleGraph{
 		addEdge("GL", "G", "L");
 		addEdge("GK", "G", "K");
 		addEdge("GJ", "G", "J");
-		
+
 		addEdge("KO", "K", "O");
 		addEdge("KN", "K", "N");
 		addEdge("KJ", "K", "J");
@@ -69,10 +56,25 @@ public class UndirectedExample extends SingleGraph{
 		addEdge("MN", "M", "N");
 	}
 	
+	public void explore(Node source) {
+		Iterator<? extends Node> k = source.getDepthFirstIterator();
+
+		int i = 0;
+		while (k.hasNext()) {
+			Node next = k.next();
+			next.setAttribute("ui.class", "marked");
+			next.setAttribute("ui.label", next.getId() + i++);
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		UndirectedExample graph = new UndirectedExample();
 		graph.display();
 		graph.explore(graph.getNode("A"));
-		
+
 	}
 }
